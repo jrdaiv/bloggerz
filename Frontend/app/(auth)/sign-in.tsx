@@ -20,10 +20,7 @@ const SignInPage = () => {
     try {
       const response = await axios.post(
         `http://${ipAddress}:${port}/api/users/login`,
-        { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-
+        { email, password });
       console.log(response.data);
       setLoading(false);
     } catch (error) {
