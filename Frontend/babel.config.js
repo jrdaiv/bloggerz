@@ -1,15 +1,8 @@
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: [
-      ["babel-preset-expo", { jsxImportSource: "nativewind" }],
-      "nativewind/babel",
-      ['module:metro-react-native-babel-preset'],
-    ],
-    plugins: [
-      // Required for expo-router
-      "react-native-reanimated/plugin",
-      [['module:react-native-dotenv']],
-    ]
-  };
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    ['module:react-native-dotenv', {
+      allowUndefined: false,
+    }],
+  ],
 };
