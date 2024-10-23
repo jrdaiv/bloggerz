@@ -2,22 +2,28 @@ import { View, Text, SafeAreaView, ScrollView, Button, TextInput } from 'react-n
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
+
 const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const BASE_URL = 'http://localhost:5000';
 
+  const ipAddress = process.env.IP_ADDRESS
+  const port = process.env.PORT
 
   const handleLogin = async () => {
     setLoading(true);
+
     try {
-      const response = await axios.post(`${BASE_URL}/api/users/login`, {
-        email,
-        password
-      });
+      const response = await axios.post(
+        `http://${ipAddress}:${port}/api/users/login`,
+        { email, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+
       console.log(response.data);
       setLoading(false);
     } catch (error) {

@@ -3,6 +3,7 @@ const connectDB = require('./config');
 const userRoutes = require('./routes/userRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 
 dotenv.config();
@@ -12,7 +13,7 @@ const Port = process.env.PORT || 5000;
 
 
 connectDB();
-
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRoutes);

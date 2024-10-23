@@ -2,7 +2,6 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const authenticateToken = require("../middleware/auth");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
@@ -17,31 +16,32 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
+    console.log('Login attempt:', req.body); // Debug request body
+
     const { email, password } = req.body;
-
-
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
 
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: "Invalid credentials" });
+      console.log('Invalid credentials');
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-    res.json({ token, message: "Login successful" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token, message: 'Login successful' });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Login failed" });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
+
 
 router.get("/", async (req, res) => {
   try {

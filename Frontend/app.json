@@ -2,6 +2,7 @@
   "expo": {
     "name": "Bloggerz",
     "slug": "Bloggerz",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "myapp",
